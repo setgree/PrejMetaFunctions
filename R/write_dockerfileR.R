@@ -28,7 +28,7 @@
 #'@importFrom sessioninfo package_info
 #'@importFrom utils installed.packages
 #'
-write_dockerfile <- function(write_file = TRUE,
+write_dockerfileR <- function(write_file = TRUE,
                              org = "rocker",
                              image = "r-base:latest",
                              apt_packages = TRUE,

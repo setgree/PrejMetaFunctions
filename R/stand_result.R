@@ -1,15 +1,36 @@
-stand_result <- 
-  function(eff_type, raw_effect_size, ctrl_sd, n_t, n_c) {
+#' convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)
+#' 
+#' @param eff_type The effect type to convert. Currently accepted options are
+#' "d_i_d" (difference in differences), "d_i_m" (difference in means), 
+#' 'd' (For Cohen's D -- this won't recalculate Cohen's D but will estimate 
+#' its variance and standard error), "unspecified null" (for when authors report
+#' that they found null effects but don't give a more precise recording of what 
+#' those were), "eta_squared" (for eta squared), "reg_coef" (for a regression
+#' coefficient), "t_test" (for a T statistic), and "f_test" (for an F test).
+#' @param raw_effect_size the reported test statistic, in terms of the reported
+#' statistical information. So, if the eff_type = "t_test", raw_effect_size will
+#' equal the T statistic.
+#' @param sd the standard deviation by which you are standardizing the given test statistic.
+#' This is needed for some but not all of the equations -- F test and T '
+#' statistics already contain information about samplng distribution and thus
+#' can be converted directly and this parameter can be left blank.
+#' @param n_t sample size in the treatment group.
+#' @param n_c sample size in the control group.
+#' @export
+#' @examples 
+#' stand_result(eff_type = 'd_i_m', raw_effect_size = 2.43,  sd = 6.3, n_t = 100, n_c = 100)
+
+stand_result <- function(eff_type, raw_effect_size, sd, n_t, n_c) {
     ## calculations generally taken from Cooper, Hedges, and Valentine (2009)
     
     # difference in differences
     if (eff_type == 'd_i_d') { 
-      d <- round(raw_effect_size / ctrl_sd, digits = 3)
+      d <- round(raw_effect_size / sd, digits = 3)
     }
     
     # difference in means
     else if (eff_type == 'd_i_m') {
-      d <- round(raw_effect_size / ctrl_sd, digits = 3)
+      d <- round(raw_effect_size / sd, digits = 3)
     }
     
     # reporting of change of SDs in text:
@@ -30,7 +51,7 @@ stand_result <-
   
     # regression coefficient
   else if (eff_type == 'reg_coef') {
-    d <- round(raw_effect_size / ctrl_sd, digits = 3)
+    d <- round(raw_effect_size / sd, digits = 3)
     }
   
     # t test
@@ -48,7 +69,7 @@ stand_result <-
     # difference in proportions
     # Don Green provided  calculations for SD based on control group proportion
     else if (eff_type == 'd_i_p') {
-    d <- round(raw_effect_size / ctrl_sd, digits = 3)
+    d <- round(raw_effect_size / sd, digits = 3)
     }
     
     # odds ratio
@@ -78,10 +99,13 @@ stand_result <-
   st_err_d <- round(sqrt(var_d), digits = 3)
   
   # print everything out
-
-  results.table <- data.frame(c('Standardized Effect (Cohens D)', 
-                                'Variance of D', 'Standard Error of D'), 
-                              c(d, var_d, st_err_d))
   
-  return(results.table)
+  statistic <- c('Standardized Effect (Cohens D)', 
+                 'Variance of D', 'Standard Error of D')
+  
+  results <- c(d, var_d, st_err_d)
+
+  results_table <- data.frame(statistic, results)
+  
+  return(results_table)
 }
