@@ -1,4 +1,4 @@
-#'  Convert the output from `sessionInfo()` into the contents of a Dockerfile
+#' Convert the output from `sessionInfo()` into the contents of a Dockerfile
 #'
 #' @param write_file Defaults to TRUE, which will write a dockerfile. Else,
 #' output will be written to console (or whatever connection is open).
@@ -23,6 +23,7 @@
 #' @param dir Defaults to current directory, './'.
 #' @param filename Defaults to 'Dockerfile', making the composite file
 #' './Dockerfile'.
+#' @export
 #'
 #'@importFrom sessioninfo package_info
 #'@importFrom utils installed.packages
