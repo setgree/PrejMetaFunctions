@@ -25,23 +25,22 @@
 #' './Dockerfile'.
 #'
 #'@importFrom sessioninfo package_info
+#'@importFrom utils installed.packages
 #'
-#' @examples write_dockerfile()
-#' @examples write_dockerfile(write_file = FALSE, image = 'geospatial')
 write_dockerfile <- function(write_file = TRUE,
                              org = "rocker",
                              image = "r-base:latest",
                              apt_packages = TRUE,
                              dir = './',
-                             filename = 'Dockerfile'){
+                             filename = 'Dockerfile') {
   
   ## is sessioninfo available? 
-  if("sessioninfo" %in% rownames(installed.packages()) == FALSE){
+  if ("sessioninfo" %in% rownames(installed.packages()) == FALSE) {
     stop("please install the library `sessioninfo` before proceeding")
   }
   
   ## Write the Dockerfile as a new file, or save to current connection?
-  if(isTRUE(write_file)){
+  if (isTRUE(write_file)) {
     Dockerfile = paste0(dir, filename)
     file.create(Dockerfile)
     sink(file = Dockerfile, append = T)
@@ -53,7 +52,7 @@ write_dockerfile <- function(write_file = TRUE,
   ## if len(pkgs) !=0, add  and 'remotes' 
   cat(paste0("FROM ", org, "/", image, "\n", "\n"))
   
-  if(isTRUE(apt_packages)){
+  if (isTRUE(apt_packages)) {
     cat(paste0("RUN apt-get update \\", "\n", "  && apt-get install -y \\", "\n",
                "    \"libcurl4-openssl-dev\" \\", "\n",
                "    \"libssl-dev\" \\", "\n",
@@ -61,12 +60,12 @@ write_dockerfile <- function(write_file = TRUE,
                "  && rm -rf /var/lib/apt/lists/*", "\n", "\n"))
   }
   
-  pkgs <- sort(sessioninfo::package_info((pkgs =.packages()), 
+  pkgs <- sort(package_info((pkgs =.packages()), 
                                          dependencies = F)$package)
-  if(length(pkgs) != 0){
+  if(length(pkgs) != 0) {
     cat(paste0("RUN Rscript -e 'if(!require(\"remotes\")) install.packages(\"remotes\")'", "\n"))
   }
-  if(any(grep('Bioconductor', sessioninfo::package_info()$source))){
+  if(any(grep('Bioconductor', package_info()$source))) {
     cat(paste0("RUN Rscript -e 'options(warn = 2); if(!require(\"BiocManager\")) install.packages(\"BiocManager\")'", "\n"))
   }
   
@@ -75,16 +74,16 @@ write_dockerfile <- function(write_file = TRUE,
   bioc_packs <- list()
   github_packs <- list()
   
-  for(pkg in pkgs){
+  for(pkg in pkgs) {
     if(any(grep("CRAN",
-                sessioninfo::package_info(pkg, dependencies = FALSE)$source))){
+                package_info(pkg, dependencies = FALSE)$source))) {
       cran_packs <- c(cran_packs, pkg)}
-    else if(any(grep("Bioconductor",
-                     sessioninfo::package_info(pkg, dependencies = FALSE)$source))){
+    else if (any(grep("Bioconductor",
+                     package_info(pkg, dependencies = FALSE)$source))) {
       bioc_packs <- c(bioc_packs, pkg)
     }
-    else if(any(grep("Github",
-                     sessioninfo::package_info(pkg, dependencies = FALSE)$source))){
+    else if (any(grep("Github",
+                     package_info(pkg, dependencies = FALSE)$source))) {
       github_packs <- c(github_packs, pkg)
     }
   }
@@ -111,7 +110,7 @@ write_dockerfile <- function(write_file = TRUE,
   
   ### install GitHub packages iff there are GitHub packages
   for (pkg in github_packs) {
-    source <- sessioninfo::package_info(pkg, dependencies = F)$source
+    source <- package_info(pkg, dependencies = F)$source
     cat(paste0(noquote("RUN Rscript -e '"),
                noquote("remotes::install_github(repo = "), '"',
                gsub(pattern = ".*\\((.*)\\).*", replacement =  "\\1", source),
