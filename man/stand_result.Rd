@@ -2,7 +2,7 @@
 % Please edit documentation in R/stand_result.R
 \name{stand_result}
 \alias{stand_result}
-\title{convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)}
+\title{Convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)}
 \usage{
 stand_result(eff_type, raw_effect_size, sd, n_t, n_c)
 }
@@ -29,7 +29,7 @@ can be converted directly and this parameter can be left blank.}
 \item{n_c}{sample size in the control group.}
 }
 \description{
-convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)
+Convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)
 }
 \examples{
 stand_result(eff_type = 'd_i_m', raw_effect_size = 2.43,  sd = 6.3, n_t = 100, n_c = 100)

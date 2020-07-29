@@ -1,4 +1,4 @@
-#' convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)
+#' Convert different statistical reports into a standardized framework (Cohen's D and Variance/Standard Error of Cohen's D)
 #' 
 #' @param eff_type The effect type to convert. Currently accepted options are
 #' "d_i_d" (difference in differences), "d_i_m" (difference in means), 
