@@ -1,0 +1,17 @@
+Package: PrejMetaFunctions
+Title: Some functions John-Henry Pezzuto and I wrote for a forthcoming meta-analysis
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Seth",
+           family = "Green",
+           role = c("aut", "cre"),
+           email = "setgree@gmail.com",
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: These are the meta-analysis functions John-Henry and I wrote for a forthcoming paper from Paluck, Green, Porat and Clark. I'm not sure how well they'll generalize but I'm working through the package creation steps for kicks.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Suggests: 
+    testthat
