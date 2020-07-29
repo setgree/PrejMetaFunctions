@@ -2,7 +2,7 @@
 % Please edit documentation in R/write_dockerfileR.R
 \name{write_dockerfileR}
 \alias{write_dockerfileR}
-\title{Convert the output from \code{sessionInfo()} into the contents of a Dockerfile}
+\title{Convert the output from \code{sessioninfo::package_info()} into the contents of a Dockerfile}
 \usage{
 write_dockerfileR(
   write_file = TRUE,
@@ -44,5 +44,5 @@ Other Rocker images can be browsed here: https://hub.docker.com/u/rocker.}
 './Dockerfile'.}
 }
 \description{
-Convert the output from \code{sessionInfo()} into the contents of a Dockerfile
+Convert the output from \code{sessioninfo::package_info()} into the contents of a Dockerfile
 }
